@@ -39,7 +39,7 @@ public class Bank
             accounts[numAccounts] = a;
             numAccounts++ ;
             Debug.trace( "Bank::addBankAccount: added " + 
-                         a.accNumber +" "+ a.accPasswd +" £"+ a.balance);
+                         a.accNumber +" "+ a.accPasswd +" ï¿½"+ a.balance);
             return true;
         } else {
             Debug.trace( "Bank::addBankAccount: can't add bank account - too many accounts"); 
@@ -63,15 +63,30 @@ public class Bank
     { 
         Debug.trace( "Bank::login: accNumber = " + newAccNumber);       
         logout(); // logout of any previous account
-
-        // search the array to find a bank account with matching account and password.
-        // If you find it, store it in the variable currentAccount and return true.
-        // If you don't find it, reset everything and return false
-        
-        // YOU NEED TO ADD CODE HERE TO FIND THE RIGHT ACCOUNT IN THE accounts ARRAY, 
-        // SET THE account VARIABLE AND RETURN true
-        
-
+        // Begin a loop that iterates through every account in the bank.
+        for (int i = 0; i < numAccounts; i++) {// Check if the account number of the current account in the loop matches 
+                                                //the account number provided by the user.
+            if(accounts[i].accNumber == newAccNumber){ 
+                // Log that an account with the provided account number was found.
+                Debug.trace( "Bank::login: accNumber = " + newAccNumber + " found in the accounts"); 
+                // If the account numbers match, check if the password of the current account 
+                if(accounts[i].accPasswd == newAccPasswd){ //in the loop matches the password provided by the user.
+                    // Log that the password is correct.
+                    Debug.trace( "Bank::login: accNumber = " + newAccNumber + ", password correct"); 
+                    // If both the account number and password match, set the current account as the active account.
+                    account = accounts[i]; 
+                    Debug.trace( "Bank::login: accNumber = " + newAccNumber + " logged in."); // Log that the user has successfully logged in.
+                    // End the function and return true because the login was successful.
+                    return true; 
+                }
+                // If the account number matches but the password does not...
+                else{ 
+                    Debug.trace( "Bank::login: accNumber = " + newAccNumber + ", password incorrect"); // Log that the password is incorrect.
+                    break; // Break out of the loop because there's no need to check further accounts - 
+                    // an account with the correct number was found, but the password did not match.
+                }
+            }
+        }
         // not found - return false
         account = null;
         return false;
